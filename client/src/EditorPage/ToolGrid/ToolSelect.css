@@ -1,0 +1,22 @@
+.ToolSelect 
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 32px;
+	height: 32px;
+	margin: 4px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--inset-color);
+}
+
+.ToolSelect:hover 
+{
+	cursor: pointer;
+}
+
+.ToolSelect:active 
+{
+	background-color: var(--inset-color);
+}

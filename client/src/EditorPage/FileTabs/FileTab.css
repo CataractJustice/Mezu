@@ -1,0 +1,38 @@
+.FileTab 
+{
+	border-right: 1px solid var(--inset-color);
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.FileTabTitle 
+{
+	margin: 6px;
+}
+
+.FileTabClose
+{
+	color: transparent;
+	margin: 2px;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	text-align: center;
+	border: 1px solid transparent;
+}
+
+.FileTab:hover .FileTabClose 
+{
+	color: var(--font-color);
+}
+
+.FileTabClose:hover
+{
+	background-color: var(--inset-color);
+	border: 1px solid var(--fg-color);
+}

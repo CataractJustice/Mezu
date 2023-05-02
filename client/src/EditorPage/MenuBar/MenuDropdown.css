@@ -1,0 +1,31 @@
+.MenuDropdown 
+{
+	position: relative;
+}
+
+.MenuDropdownItemsList 
+{
+	background-color: var(--fg-color);
+	display: none;
+	position: absolute;
+	z-index: 1;
+	border: 1px solid var(--inset-color);
+	width: 128px;
+}
+
+.MenuDropdownItem 
+{
+	padding: 6px;
+	padding-left: 12px;
+}
+
+.MenuDropdownItem:hover 
+{
+	cursor: pointer;
+	background-color: var(--inset-color);
+}
+
+.MenuDropdownItem:active 
+{
+	background-color: var(--bg-color);
+}

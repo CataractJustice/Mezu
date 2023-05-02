@@ -1,0 +1,23 @@
+.ImageLayersList 
+{
+	display: flex;
+	flex-flow: column;
+	padding: 8px;
+}
+
+.ImageLayersListScrolledContainer 
+{
+	max-height: 320px;
+	overflow-y: scroll;
+}
+
+.AddLayerButton 
+{
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--inset-color);
+}

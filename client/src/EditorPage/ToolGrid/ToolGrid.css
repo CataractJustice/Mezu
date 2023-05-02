@@ -1,0 +1,8 @@
+.ToolGrid 
+{
+	background-color: var(--fg-color);
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	height: fit-content;
+	justify-items: center;
+}

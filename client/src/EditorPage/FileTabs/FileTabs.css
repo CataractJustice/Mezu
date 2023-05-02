@@ -1,0 +1,18 @@
+.FileTabs 
+{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: 32px auto;
+}
+
+.TabTitles 
+{
+	display: flex;
+	padding: 0px;
+	overflow-x: scroll;
+	background-color: var(--fg-color);
+	border-left: 1px solid var(--inset-color);
+	border-bottom: 1px solid var(--inset-color);
+}

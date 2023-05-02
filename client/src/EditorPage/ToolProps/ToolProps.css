@@ -1,0 +1,11 @@
+.ToolProps 
+{
+	background-color: var(--fg-color);
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
+	min-height: 240px;
+	min-width: 320px;
+	padding: 0px;
+	flex-wrap: wrap;
+}

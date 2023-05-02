@@ -1,0 +1,15 @@
+.Footer 
+{
+	background-color: var(--fg-color);
+	min-height: 32px;
+	border-top: 1px solid var(--inset-color);
+	display: flex;
+	align-items: center;
+}
+
+.PixelCoords 
+{
+	display: flex;
+	justify-content: space-between;
+	width: 128px;
+}

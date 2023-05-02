@@ -1,0 +1,12 @@
+.ToolPropContainer 
+{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.ToolProp 
+{
+	display: flex;
+	justify-content: flex-end;
+}

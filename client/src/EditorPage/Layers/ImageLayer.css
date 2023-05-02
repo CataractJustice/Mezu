@@ -1,0 +1,70 @@
+.ImageLayer 
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 8px;
+	margin-right: 8px;
+	border: 1px solid var(--inset-color);
+}
+
+.ImageLayerPreviewContainer 
+{
+	border: 1px solid var(--inset-color);
+	margin: 4px;
+	width: 72px;
+	height: 72px;
+}
+
+.ImageLayerOptions 
+{
+	display: flex;
+	flex-flow: column;
+}
+
+.ImageLayerOptionButton
+{
+	cursor: pointer;
+	display: flex;
+	border: 1px solid var(--inset-color);
+	width: 28px;
+	height: 28px;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.ImageLayerOptionButton:active 
+{
+	background-color: var(--inset-color);
+}
+
+.ImageLayerTitleInput 
+{
+	background-color: var(--fg-color);
+	color: var(--font-color);
+	border: none;
+	margin: 32px;
+	padding: 8px;
+}
+
+.ImageLayerTitleInput:focus
+{
+	background-color: var(--inset-color);
+	color: var(--font-color);
+	border: none;
+	margin: 32px;
+	padding: 8px;
+	outline: none;
+}
+
+.ImageLayerPreviewContainer 
+{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.ImageLayerPreviewImage 
+{
+	border: 1px dashed var(--inset-color);
+}

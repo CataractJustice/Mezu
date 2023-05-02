@@ -1,0 +1,19 @@
+.TitledFrame 
+{
+	position: relative;
+	border: 1.5px solid var(--inset-color);
+	margin: 12px;
+    box-shadow: 0 0 0 12px var(--fg-color);
+	padding-top: 12px !important;
+}
+
+.TitledFrameTitle
+{
+	position:absolute;
+	top: -11px;
+	left: 6px;
+	background-color: var(--fg-color);
+	padding-left: 8px;
+	padding-right: 8px;
+	border: 1px solid var(--inset-color);
+}

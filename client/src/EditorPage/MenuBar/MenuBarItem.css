@@ -1,0 +1,13 @@
+.MenuBarItem 
+{
+	border-right-width: 1px;
+	border-right-style: groove;
+	border-right-color: var(--inset-color);
+	padding: 4px;
+	cursor: pointer;
+}
+
+.MenuBarItem:active
+{
+	background-color: var(--inset-color);
+}
