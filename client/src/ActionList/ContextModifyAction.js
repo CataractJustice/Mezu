@@ -11,11 +11,13 @@ export default class ContextModifyAction
 
 	undo() 
 	{
+		this.context.clearRect(0, 0, this.imageBefore.width, this.imageBefore.height);
 		this.context.drawImage(this.imageBefore, 0, 0);
 	}
 
 	redo() 
 	{
+		this.context.clearRect(0, 0, this.imageAfter.width, this.imageAfter.height);
 		this.context.drawImage(this.imageAfter, 0, 0);
 	}
 }
