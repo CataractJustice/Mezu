@@ -50,7 +50,7 @@ export const FloodFillTool =
 		const filledColor = pixel(pixelStack[0][0], pixelStack[0][1]);
 		fillColor[3] = filledColor[3];
 
-		FloodFillTool.before = canvas.toDataURL();
+		const boundingBox = [pixelStack[0][0], pixelStack[0][1], pixelStack[0][0], pixelStack[0][1]];
 
 		while(pixelStack.length) 
 		{
@@ -64,9 +64,13 @@ export const FloodFillTool =
 			let checkLeft = true;
 			let checkRight = true;
 			//go down
-			while(colorDelta(filledColor, pixel(x, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x, y)) && y < canvas.width) 
+			while(colorDelta(filledColor, pixel(x, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x, y)) && y < canvas.height) 
 			{
 				fillPixel(x, y);
+				boundingBox[0] = Math.min(x, boundingBox[0]);
+				boundingBox[1] = Math.min(y, boundingBox[1]);
+				boundingBox[2] = Math.max(x, boundingBox[2]);
+				boundingBox[3] = Math.max(y, boundingBox[3]);
 				if(x > 0)
 				{
 					if(colorDelta(filledColor, pixel(x-1, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x-1, y))) 
@@ -96,10 +100,11 @@ export const FloodFillTool =
 				y++;
 			}
 		}
-
+		console.log(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
+		FloodFillTool.before = context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
 		context.putImageData(imageData, 0, 0);
-		FloodFillTool.after = canvas.toDataURL();
-		editor.actionList.push(new ContextModifyAction(context, FloodFillTool.before, FloodFillTool.after));
+		FloodFillTool.after = context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
+		editor.actionList.push(new ContextModifyAction({context: context, before: FloodFillTool.before, after: FloodFillTool.after, x: boundingBox[0], y: boundingBox[1]}));
 	},
 	onMouseUp: ()=> 
 	{

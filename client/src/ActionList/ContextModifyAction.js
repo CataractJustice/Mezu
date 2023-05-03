@@ -1,23 +1,21 @@
 export default class ContextModifyAction 
 {
-	constructor(context, base64Before, base64After) 
+	constructor(props) 
 	{
-		this.context = context;
-		this.imageBefore = new Image();
-		this.imageBefore.src = base64Before;
-		this.imageAfter = new Image();
-		this.imageAfter.src = base64After;
+		this.context = props.context;
+		this.imageDataBefore = props.before;
+		this.imageDataAfter = props.after;
+		this.x = props.x;
+		this.y = props.y;
 	}
 
 	undo() 
 	{
-		this.context.clearRect(0, 0, this.imageBefore.width, this.imageBefore.height);
-		this.context.drawImage(this.imageBefore, 0, 0);
+		this.context.putImageData(this.imageDataBefore, this.x ? this.x : 0, this.y ? this.y : 0);
 	}
 
 	redo() 
 	{
-		this.context.clearRect(0, 0, this.imageAfter.width, this.imageAfter.height);
-		this.context.drawImage(this.imageAfter, 0, 0);
+		this.context.putImageData(this.imageDataAfter, this.x ? this.x : 0, this.y ? this.y : 0);
 	}
 }

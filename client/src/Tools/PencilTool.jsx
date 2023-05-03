@@ -18,13 +18,13 @@ export const PencilTool =
 		context.lineWidth = PencilTool.lineWidth;
 		PencilTool.lineCurrent.x = localx;
 		PencilTool.lineCurrent.y = localy;
-		PencilTool.before = canvas.toDataURL();
+		PencilTool.before = context.getImageData(0, 0, canvas.width, canvas.height);
 	},
 	onMouseUp: (canvas, context, localx, localy, editor)=> 
 	{
 		PencilTool.active = false
-		PencilTool.after = canvas.toDataURL();
-		editor.actionList.push(new ContextModifyAction(context, PencilTool.before, PencilTool.after));
+		PencilTool.after = context.getImageData(0, 0, canvas.width, canvas.height);
+		editor.actionList.push(new ContextModifyAction({context: context, before: PencilTool.before, after: PencilTool.after}));
 	},
 	onMouseMove: (canvas, context, localx, localy, editor)=> 
 	{

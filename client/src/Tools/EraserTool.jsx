@@ -9,7 +9,7 @@ export const EraserTool =
 	before: 0,
 	after: 0,
 
-	onMouseDown: (canvas)=> 
+	onMouseDown: (canvas, context)=> 
 	{
 		EraserTool.active = true;
 		/*
@@ -19,13 +19,13 @@ export const EraserTool =
 		PencilTool.lineCurrent.y = localy;
 		context.beginPath();
 		*/
-		EraserTool.before = canvas.toDataURL();
+		EraserTool.before = context.getImageData(0, 0, canvas.width, canvas.height);
 	},
 	onMouseUp: (canvas, context, localx, localy, editor)=> 
 	{
 		EraserTool.active = false
-		EraserTool.after = canvas.toDataURL();
-		editor.actionList.push(new ContextModifyAction(context, EraserTool.before, EraserTool.after));
+		EraserTool.after = context.getImageData(0, 0, canvas.width, canvas.height);
+		editor.actionList.push(new ContextModifyAction({context: context, before: EraserTool.before, after: EraserTool.after}));
 	},
 	onMouseMove: (canvas, context, localx, localy)=> 
 	{

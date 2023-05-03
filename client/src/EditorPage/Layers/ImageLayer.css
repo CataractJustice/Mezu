@@ -45,6 +45,7 @@
 	border: none;
 	margin: 32px;
 	padding: 8px;
+	width: 64px
 }
 
 .ImageLayerTitleInput:focus
