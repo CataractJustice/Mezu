@@ -24,20 +24,27 @@ function MenuBar()
 					onClick={()=>{
 						const fileUpload = document.createElement("input");
 						fileUpload.type = "file";
+						fileUpload.accept = "image/*";
 						fileUpload.onchange = (e) => 
 						{
 							const reader = new FileReader();
 							const fileName = e.target.files[0].name;
 							reader.onload = (e) => 
 							{
+								let validImage = true;
 								const image = new Image();
 								image.src = e.target.result;
+								image.onerror = ()=>
+								{
+									validImage = false;
+								}
 								setTimeout(()=>{
-								const editorImageFile = new ImageFile(image.width, image.height, fileName);
-								const imageLayer = new ImageLayerInternal(editorImageFile);
-								imageLayer.context.drawImage(image, 0, 0);
-								editorImageFile.layers.push(imageLayer);
-								editor.addOpenFile(editorImageFile);
+									if(!validImage) return;
+									const editorImageFile = new ImageFile(image.width, image.height, fileName);
+									const imageLayer = new ImageLayerInternal(editorImageFile);
+									imageLayer.context.drawImage(image, 0, 0);
+									editorImageFile.layers.push(imageLayer);
+									editor.addOpenFile(editorImageFile);
 								}, 100);
 							};
 							reader.readAsDataURL(e.target.files[0]);

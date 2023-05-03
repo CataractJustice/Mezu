@@ -8,9 +8,18 @@ function ImageCanvas(props)
 		for(let layer of props.file.layers) 
 		{
 			let placeholder = document.getElementById(`CanvasPlaceholder${index}${props.file.uuid}`);
+			if(!index) 
+			{
+				let old = placeholder.parentNode.getElementsByTagName("canvas");
+				for(let oldcanv of old) 
+				{
+					oldcanv.remove();
+				}
+			}
 			if(!placeholder) {index++; continue;}
-			placeholder.parentNode.replaceChild(layer.canvas, placeholder);
+			placeholder.parentNode.append(layer.canvas, placeholder);
 			index++;
+			
 		}
 	});
 
@@ -25,7 +34,7 @@ function ImageCanvas(props)
 		}>
 			{
 				props.file.layers.map((layer, index)=>{
-					return <div key={index} id={`CanvasPlaceholder${index}${props.file.uuid}`}></div>//<img key={index} className="CanvasLayer" src={canvasImage} alt={""}></img>
+					return <div key={`CanvasPlaceholder${index}${props.file.uuid}`} id={`CanvasPlaceholder${index}${props.file.uuid}`}></div>//<img key={index} className="CanvasLayer" src={canvasImage} alt={""}></img>
 				})
 			}
 		</div>
