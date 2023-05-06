@@ -21,7 +21,6 @@ export default class ActionList
 	{
 		if(this.#currentActionIndex) 
 		{
-			//console.log(this.list[--this.#currentActionIndex]);
 			this.list[--this.#currentActionIndex].undo();
 		}
 	}

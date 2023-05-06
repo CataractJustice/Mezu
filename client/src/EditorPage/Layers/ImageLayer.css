@@ -69,3 +69,25 @@
 {
 	border: 1px dashed var(--inset-color);
 }
+
+.ImageLayerMoveContainer 
+{
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	row-gap: 8px;
+}
+
+.ImageLayerMoveButton 
+{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
+
+.ImageLayerMoveButton:active 
+{
+	background-color: var(--bg-color);
+}

@@ -6,9 +6,10 @@ import "./ImageLayer.css";
 function ImageLayer(props) 
 {
 	const editor = useContext(EditorContext);
+	//to-do: optimize
 	const previewImage = props.layer.canvas.toDataURL();
 	const [hidden, setHidden] = useState(props.layer.hidden);
-	const [title, settitle] = useState(props.layer.title);
+	const [title, setTitle] = useState(props.layer.title);
 	const aspectW = props.layer.canvas.width > props.layer.canvas.height ? 1.0 : props.layer.canvas.width / props.layer.canvas.height;
 	const aspectH = props.layer.canvas.height > props.layer.canvas.width ? 1.0 : props.layer.canvas.height / props.layer.canvas.width;
 	return (
@@ -19,6 +20,14 @@ function ImageLayer(props)
 			editor.setCurrentImageCurrentLayer(props.layer);
 		}}
 		>
+			<div className="ImageLayerMoveContainer">
+				<div className="ImageLayerMoveButton">
+				U
+				</div>
+				<div className="ImageLayerMoveButton">
+				D
+				</div>
+			</div>
 			<div className="ImageLayerPreviewContainer">
 				<img className="ImageLayerPreviewImage" src={previewImage} style={{
 					width: `${aspectW*100}%`,
@@ -26,7 +35,7 @@ function ImageLayer(props)
 				}} alt={""}></img>
 			</div>
 			<input className="ImageLayerTitleInput" type="text" value={title} onChange={(e)=>{
-				settitle(e.target.value);
+				setTitle(e.target.value);
 				props.layer.title = e.target.value;
 			}}></input>
 			<div className="ImageLayerOptions">

@@ -12,7 +12,7 @@
 	position:absolute;
 	top: -11px;
 	left: 6px;
-	background-color: var(--fg-color);
+	background-color: var(--secondary-color);
 	padding-left: 8px;
 	padding-right: 8px;
 	border: 1px solid var(--inset-color);

@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import ActionList from "../ActionList/ActionList";
 import ImageLayerInternal from "../ImageLayerInternal/ImageLayerInternal";
+import ColorPicker from "./ColorPicker/ColorPicker";
 import "./Editor.css";
 import FileTabs from "./FileTabs/FileTabs";
 import Footer from "./Footer/Footer";
@@ -17,6 +18,16 @@ function Editor()
 	const [openFiles, setOpenFiles] = useState([]);
 	const [currentFile, setCurrentFile] = useState({});
 	const [currentTool, setCurrentTool] = useState({});
+	const [primaryColor, setPrimaryColor] = useState([0,0,0,255]);
+	const [secondaryColor, setSecondaryColor] = useState([255,255,255,255]);
+
+	const swapToolColors = () => 
+	{
+		const primaryTemp = primaryColor;
+		setPrimaryColor(secondaryColor);
+		setSecondaryColor(primaryTemp);
+	};
+
 	const addOpenFile = (file)=>
 	{
 		setOpenFiles(openFiles.concat([file]));
@@ -40,12 +51,13 @@ function Editor()
 		setOpenFiles(openFilesTemp);
 	}
 	return (
-		<EditorContext.Provider value={{actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
+		<EditorContext.Provider value={{swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
 			<div className="EditorBody">
 				<MenuBar></MenuBar>
 				<div className="EditorMid">
 					<div className="EditorLeftBar">
 						<ToolGrid></ToolGrid>
+						<ColorPicker></ColorPicker>
 					</div>
 					<FileTabs files={openFiles}></FileTabs>
 					<div className="EditorRightBar">

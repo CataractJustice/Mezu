@@ -45,7 +45,7 @@ function Viewport(props)
 				}
 				if(e.button === 0 && editor.currentTool.onMouseDown && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseDown(editor.currentFile.currentLayer.canvas, editor.currentFile.currentLayer.context, localMouseX, localMouseY, editor);
+					editor.currentTool.onMouseDown({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
 				}
 			}}
 		onMouseMove={(e)=>
@@ -68,7 +68,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseMove && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseMove(editor.currentFile.currentLayer.canvas, editor.currentFile.currentLayer.context, localMouseX, localMouseY, editor);
+					editor.currentTool.onMouseMove({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
 				}
 			}}
 		onMouseUp={(e)=>
@@ -89,7 +89,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseUp && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseUp(editor.currentFile.currentLayer.canvas, editor.currentFile.currentLayer.context, localMouseX, localMouseY, editor);
+					editor.currentTool.onMouseUp({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
 				}
 			}}
 

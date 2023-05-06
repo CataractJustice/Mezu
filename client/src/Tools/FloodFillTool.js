@@ -11,7 +11,7 @@ export const FloodFillTool =
 	tolerance: 0,
 
 
-	onMouseDown: (canvas, context, localx, localy, editor)=> 
+	onMouseDown: (args)=> 
 	{
 		const hex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(FloodFillTool.fillColor);
 
@@ -21,25 +21,25 @@ export const FloodFillTool =
 
 		let fillColor = [fillR, fillG, fillB, 0];
 		
-		const pixelStack = [[parseInt(localx), parseInt(localy)]];
-		const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+		const pixelStack = [[parseInt(args.px), parseInt(args.py)]];
+		const imageData = args.layer.context.getImageData(0, 0, args.layer.canvas.width, args.layer.canvas.height);
 
 		function pixel(x, y)
 		{
 			return [
-				imageData.data[(x + y * canvas.width) * 4 + 0],
-				imageData.data[(x + y * canvas.width) * 4 + 1],
-				imageData.data[(x + y * canvas.width) * 4 + 2],
-				imageData.data[(x + y * canvas.width) * 4 + 3]
+				imageData.data[(x + y * args.layer.canvas.width) * 4 + 0],
+				imageData.data[(x + y * args.layer.canvas.width) * 4 + 1],
+				imageData.data[(x + y * args.layer.canvas.width) * 4 + 2],
+				imageData.data[(x + y * args.layer.canvas.width) * 4 + 3]
 			];
 		};
 
 		function fillPixel(x, y)
 		{
-			imageData.data[(x + y * canvas.width) * 4 + 0] = fillColor[0];
-			imageData.data[(x + y * canvas.width) * 4 + 1] = fillColor[1];
-			imageData.data[(x + y * canvas.width) * 4 + 2] = fillColor[2];
-			imageData.data[(x + y * canvas.width) * 4 + 3] = 255;
+			imageData.data[(x + y * args.layer.canvas.width) * 4 + 0] = fillColor[0];
+			imageData.data[(x + y * args.layer.canvas.width) * 4 + 1] = fillColor[1];
+			imageData.data[(x + y * args.layer.canvas.width) * 4 + 2] = fillColor[2];
+			imageData.data[(x + y * args.layer.canvas.width) * 4 + 3] = 255;
 		};
 
 		function colorDelta(c1, c2)
@@ -64,7 +64,7 @@ export const FloodFillTool =
 			let checkLeft = true;
 			let checkRight = true;
 			//go down
-			while(colorDelta(filledColor, pixel(x, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x, y)) && y < canvas.height) 
+			while(colorDelta(filledColor, pixel(x, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x, y)) && y < args.layer.canvas.height) 
 			{
 				fillPixel(x, y);
 				boundingBox[0] = Math.min(x, boundingBox[0]);
@@ -84,7 +84,7 @@ export const FloodFillTool =
 						checkLeft = true;
 					}
 				}//////////////////
-				if(x < canvas.width - 1) 
+				if(x < args.layer.canvas.width - 1) 
 				{
 					if(colorDelta(filledColor, pixel(x+1, y)) <= FloodFillTool.tolerance && colorDelta(fillColor, pixel(x+1, y))) 
 					{
@@ -100,11 +100,10 @@ export const FloodFillTool =
 				y++;
 			}
 		}
-		console.log(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
-		FloodFillTool.before = context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
-		context.putImageData(imageData, 0, 0);
-		FloodFillTool.after = context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
-		editor.actionList.push(new ContextModifyAction({context: context, before: FloodFillTool.before, after: FloodFillTool.after, x: boundingBox[0], y: boundingBox[1]}));
+		FloodFillTool.before = args.layer.context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
+		args.layer.context.putImageData(imageData, 0, 0);
+		FloodFillTool.after = args.layer.context.getImageData(boundingBox[0], boundingBox[1], boundingBox[2] - boundingBox[0] + 1, boundingBox[3] - boundingBox[1] + 1);
+		args.editor.actionList.push(new ContextModifyAction({context: args.layer.context, before: FloodFillTool.before, after: FloodFillTool.after, x: boundingBox[0], y: boundingBox[1]}));
 	},
 	onMouseUp: ()=> 
 	{
