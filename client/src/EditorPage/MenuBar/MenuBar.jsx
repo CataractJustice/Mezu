@@ -52,7 +52,24 @@ function MenuBar()
 						fileUpload.click();
 					}}
 					>Open</div>
-					<div className="MenuDropdownItem">Save as</div>
+					<div className="MenuDropdownItem" onClick={()=>{
+						const layers = editor.currentFile.layers;
+						const mergeCanvas = document.createElement("canvas");
+						mergeCanvas.width = editor.currentFile.width;
+						mergeCanvas.height = editor.currentFile.height;
+						const mergeContext = mergeCanvas.getContext("2d");
+						for(const layer of layers) 
+						{
+							mergeContext.drawImage(layer.canvas, 0, 0);
+						}
+
+						const link = document.createElement("a");
+						link.download = editor.currentFile.name;
+						link.href = mergeCanvas.toDataURL();
+						link.click();
+					}}>
+						Save
+					</div>
 					<div className="MenuDropdownItem"
 					onClick={()=>{editor.actionList.undo()}}
 					>Undo</div>
