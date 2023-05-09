@@ -3,6 +3,7 @@ import { useContext } from "react";
 import DialogPopup from "../../Components/DialogPopup";
 import ChooseColorDialog from "../ChooseColorDialog/ChooseColorDialog";
 import { EditorContext } from "../Editor";
+import "./ColorPicker.css";
 
 export default function ColorPicker(props) 
 {
@@ -14,19 +15,17 @@ export default function ColorPicker(props)
 		<div className="ColorPreviews" onClick={()=>{
 			setDialogOpen(true)
 		}}>
-			<div className="ColorPickerPrimaryColor" style={{
-				backgroundColor: `rgba(${editor.primaryColor[0]}, ${editor.primaryColor[1]}, ${editor.primaryColor[2]}, ${editor.primaryColor[3]/255})`
-			}}>
-				P
-			</div>
 			<div className="ColorPickerSecondaryColor" style={{
 				backgroundColor: `rgba(${editor.secondaryColor[0]}, ${editor.secondaryColor[1]}, ${editor.secondaryColor[2]}, ${editor.secondaryColor[3]/255})`
 			}}>
-				S
+			<div className="ColorPickerPrimaryColor" style={{
+				backgroundColor: `rgba(${editor.primaryColor[0]}, ${editor.primaryColor[1]}, ${editor.primaryColor[2]}, ${editor.primaryColor[3]/255})`
+			}}>
+			</div>
 			</div>
 		</div>
-		<div className="ColorPickerSwapColorsButton">
-			W
+		<div className="ColorPickerSwapColorsButton" onClick={editor.swapToolColors}>
+			S
 		</div>
 	</div>
 	

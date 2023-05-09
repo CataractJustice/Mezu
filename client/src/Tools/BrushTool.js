@@ -117,9 +117,9 @@ export default class BrushTool
 
 	onMouseMove(args) 
 	{
+		if(!this.active) return;
 		const bx = parseInt(args.px) - parseInt(this.brushMask.width/2);
 		const by = parseInt(args.py) - parseInt(this.brushMask.height/2);
-		if(!this.active) return;
 		if(Math.sqrt((this.lastX - bx) * (this.lastX - bx) + (this.lastY - by) * (this.lastY - by)) < this.brushStep) return; 
 		this.editBoundingBox = {
 			minX: Math.min(bx, this.editBoundingBox.minX),
@@ -157,6 +157,7 @@ export default class BrushTool
 		const dx = bx - this.lastX;
 		const dy = by - this.lastY;
 		const length = Math.sqrt(dx*dx+dy*dy);
+		if(!length) return;
 		const steps = length / this.brushStep;
 		const adjustedMaxSteps = brushMaxSteps / (1.0 + (this.brushMask.width * this.brushMask.height) / 500.0)
 		const stepLength = (steps > adjustedMaxSteps) ? (length / adjustedMaxSteps) : (this.brushStep);

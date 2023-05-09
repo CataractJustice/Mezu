@@ -1,0 +1,43 @@
+
+.ColorPickerContainer 
+{
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	position: relative;
+}
+
+.ColorPickerContainer .ColorPreviews 
+{
+	position: relative;
+	height: 64px;
+	width: 48px;
+}
+
+.ColorPickerPrimaryColor, .ColorPickerSecondaryColor
+{
+	position: absolute;
+	border: 1px solid var(--inset-color);
+	width: 32px;
+	height: 32px;
+}
+
+.ColorPickerSecondaryColor 
+{
+	left: 16px;
+	top: 16px;
+}
+
+.ColorPickerPrimaryColor 
+{
+	top: -16px;
+	left: -16px;
+}
+
+.ColorPickerSwapColorsButton 
+{
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+	left: 54px
+}
