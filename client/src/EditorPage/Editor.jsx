@@ -13,6 +13,12 @@ import ToolProps from "./ToolProps/ToolProps";
 export const EditorContext = createContext();
 const actionList = new ActionList();
 
+function useREACTToStateUpdatePlease(){
+	// eslint-disable-next-line
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1);
+}
+
 function Editor() 
 {
 	const [openFiles, setOpenFiles] = useState([]);
@@ -20,6 +26,8 @@ function Editor()
 	const [currentTool, setCurrentTool] = useState({});
 	const [primaryColor, setPrimaryColor] = useState([0,0,0,255]);
 	const [secondaryColor, setSecondaryColor] = useState([255,255,255,255]);
+
+	const REACTPLEASE = useREACTToStateUpdatePlease();
 
 	const swapToolColors = () => 
 	{
@@ -51,7 +59,7 @@ function Editor()
 		setOpenFiles(openFilesTemp);
 	}
 	return (
-		<EditorContext.Provider value={{swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
+		<EditorContext.Provider value={{REACTPLEASE, swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
 			<div className="EditorBody">
 				<MenuBar></MenuBar>
 				<div className="EditorMid">

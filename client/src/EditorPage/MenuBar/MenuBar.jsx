@@ -53,6 +53,11 @@ function MenuBar()
 					}}
 					>Open</div>
 					<div className="MenuDropdownItem" onClick={()=>{
+						editor.currentFile.saved = true;
+						//Setting state of a current file does not update components that use current file state
+						editor.setCurrentFile(editor.currentFile);
+						//Setting state of a unused integer updates the components (all of them but that's at least something)
+						editor.REACTPLEASE();
 						const layers = editor.currentFile.layers;
 						const mergeCanvas = document.createElement("canvas");
 						mergeCanvas.width = editor.currentFile.width;

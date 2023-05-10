@@ -91,3 +91,8 @@
 {
 	background-color: var(--bg-color);
 }
+
+.ImageLayerPreviewImage 
+{
+	image-rendering: optimizeQuality;
+}

@@ -13,7 +13,7 @@ function FileTabs(props)
 			{
 				props.files.map((file, index) => 
 				{
-					return <FileTab key={index} file={file} active={editor.currentFile===file} onClick={()=>{editor.setCurrentFile(file)}} onClose={
+					return <FileTab key={index} file={file} active={editor.currentFile.uuid===file.uuid} onClick={()=>{editor.setCurrentFile(file)}} onClose={
 						()=>{
 							editor.closeFile(index);
 						}
@@ -25,7 +25,7 @@ function FileTabs(props)
 				{
 					props.files.map((file, index) => 
 					{
-						return <Viewport key={index} file={file} active={editor.currentFile===file}></Viewport>
+						return <Viewport key={index} file={file} active={editor.currentFile.uuid===file.uuid}></Viewport>
 					})
 				}
 			</div>

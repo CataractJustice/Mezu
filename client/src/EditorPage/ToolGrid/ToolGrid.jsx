@@ -37,7 +37,7 @@ function ToolGrid()
 			<div className="TitledFrameTitle">Tools</div>
 			{
 				BrushList.map((brush, index) => {
-					return <ToolSelect tool={brush.brush} key={brush.brush.title+index}>{brush.icon}</ToolSelect>	
+					return <ToolSelect tool={brush.brush} key={brush.brush.title+""+index}>{brush.icon}</ToolSelect>	
 				})
 			}
 
