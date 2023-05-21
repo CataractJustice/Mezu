@@ -2,7 +2,10 @@ import { useState } from "react";
 import { createRef } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
+import SelectableText from "../../Components/SelectableText";
+import { BlendModes } from "../../ImageLayerInternal/ImageLayerInternal";
 import { EditorContext } from "../Editor";
+import MenuDropdown from "../MenuBar/MenuDropdown";
 import "./ImageLayer.css";
 
 function ImageLayer(props) 
@@ -50,10 +53,25 @@ function ImageLayer(props)
 				width={parseInt(previewWidthPx * aspectW)}
 				height={parseInt(previewWidthPx * aspectH)} alt={""}></canvas>
 			</div>
-			<input className="ImageLayerTitleInput" type="text" value={title} onChange={(e)=>{
-				setTitle(e.target.value);
-				props.layer.title = e.target.value;
-			}}></input>
+			<div className="ImageLayerMiddleLayout">
+				<input className="ImageLayerTitleInput" type="text" value={title} onChange={(e)=>{
+					setTitle(e.target.value);
+					props.layer.title = e.target.value;
+				}}></input>
+				<MenuDropdown title="Blend mode">
+					{
+						Object.keys(BlendModes).map((key, index) => {
+							const blendTitle = key;
+							
+							return (
+								<div className="MenuDropdownItem" onClick={()=>{
+									props.layer.setBlendMode(BlendModes[key]);
+								}} key={key}><SelectableText selected={props.layer.blendMode===key}>{blendTitle}</SelectableText></div>
+							);
+						})
+					}
+				</MenuDropdown>
+			</div>
 			<div className="ImageLayerOptions">
 				<div className="ImageLayerOptionButton" onClick={()=>{
 					setHidden(!props.layer.hidden);

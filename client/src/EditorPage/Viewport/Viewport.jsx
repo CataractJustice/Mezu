@@ -3,6 +3,8 @@ import ImageCanvas from "../ImageCanvas/ImageCanvas";
 import { UpdateFooterPixelCoords } from "../Footer/Footer";
 import "./Viewport.css";
 import { EditorContext } from "../Editor";
+import FreeTransformUI from "./FreeTransformUI";
+import { useEffect } from "react";
 
 function Viewport(props) 
 {
@@ -18,10 +20,15 @@ function Viewport(props)
 
 	const editor = useContext(EditorContext);
 
+	const [transformRect, setTransformRect] = useState({x:0,y:0,w:0,h:0});
 
 	//Temporary test fields
 	const canvasWidth = props.file.width;
 	const canvasHeight = props.file.height;
+
+	useEffect(()=>{
+		if(editor.currentTool.update) editor.currentTool.update({xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
+	});
 
 	return (
 		<div className="Viewport" ref={ViewportRef} style={{display: props.active ? "block" : "none"}}
@@ -45,7 +52,7 @@ function Viewport(props)
 				}
 				if(e.button === 0 && editor.currentTool.onMouseDown && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseDown({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
+					editor.currentTool.onMouseDown({setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 		onMouseMove={(e)=>
@@ -68,7 +75,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseMove && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseMove({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
+					editor.currentTool.onMouseMove({setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 		onMouseUp={(e)=>
@@ -89,7 +96,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseUp && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseUp({editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer});
+					editor.currentTool.onMouseUp({setTransformRect:setTransformRect, xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 
@@ -122,6 +129,10 @@ function Viewport(props)
 			}}
 		>
 			<ImageCanvas xOffset={xOffset} yOffset={yOffset} zoom={zoom} file={props.file}></ImageCanvas>
+			<FreeTransformUI onTransform={(x,y,w,h)=>{
+				setTransformRect({x:x,y:y,w:w,h:h});
+				if(editor.currentTool.onRectTransform) editor.currentTool.onRectTransform({x:x,y:y,w:w,h:h});
+				}} x={transformRect.x} y={transformRect.y} w={transformRect.w} h={transformRect.h} xOffset={xOffset} yOffset={yOffset} zoom={zoom}></FreeTransformUI>
 		</div>
 	);
 }

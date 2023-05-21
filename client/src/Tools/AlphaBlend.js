@@ -8,7 +8,7 @@ export default class AlphaBlend
 		result[0] = parseInt(color[0] * lerp) + parseInt(originalColor[0] * (1 - lerp));
 		result[1] = parseInt(color[1] * lerp) + parseInt(originalColor[1] * (1 - lerp));
 		result[2] = parseInt(color[2] * lerp) + parseInt(originalColor[2] * (1 - lerp));
-		result[3] = Math.max(color[3], originalColor[3]);
+		result[3] = parseInt(originalColor[3] * (1.0 - color[3] / 255) + color[3]);
 		return result;
 	}
 

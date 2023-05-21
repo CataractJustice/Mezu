@@ -8,7 +8,7 @@ function DialogPopup(props)
 		}}>
 			<div className="DialogPopupContainerCenter">
 				<div className="DialogPopupCloseButton" onClick={props.onClose}>
-					X
+				⤬
 				</div>
 				{props.children}
 			</div>

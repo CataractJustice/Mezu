@@ -18,6 +18,7 @@ function ImageCanvas(props)
 			}
 			if(!placeholder) {index++; continue;}
 			placeholder.parentNode.append(layer.canvas, placeholder);
+			placeholder.parentNode.append(layer.bufferCanvas, placeholder);
 			index++;
 			
 		}
@@ -32,11 +33,13 @@ function ImageCanvas(props)
 				height: `${props.file.height*props.zoom}px`
 			}
 		}>
-			{
-				props.file.layers.map((layer, index)=>{
-					return <div key={`CanvasPlaceholder${index}${props.file.uuid}`} id={`CanvasPlaceholder${index}${props.file.uuid}`}></div>//<img key={index} className="CanvasLayer" src={canvasImage} alt={""}></img>
-				})
-			}
+			<div>
+				{
+					props.file.layers.map((layer, index)=>{
+						return <div key={`CanvasPlaceholder${index}${props.file.uuid}`} id={`CanvasPlaceholder${index}${props.file.uuid}`}></div>//<img key={index} className="CanvasLayer" src={canvasImage} alt={""}></img>
+					})
+				}
+			</div>
 		</div>
 	);
 }

@@ -1,0 +1,77 @@
+{
+	"MenuBar": 
+	{
+		"View": "Вигляд",
+		"File": "Файл",
+		"Image": "Зображення",
+		"FileNew": "Новий",
+		"FileOpen": "Відкрити",
+		"FileSave": "Зберегти",
+		"FileUndo": "Відмінити",
+		"FileRedo": "Повторити",
+		"ViewThemes": "Теми",
+		"ViewThemesLight": "Світла",
+		"ViewThemeDark": "Темна"
+	},
+
+	"ToolGrid": 
+	{
+		"Title": "Інструменти"
+	},
+
+	"Tools": 
+	{
+		"Brush": 
+		{
+			"Title": "Кисть",
+			"Props": 
+			{
+				"BrushSize": "Розмір кисті",
+				"BrushFalloff": "Опад кисті",
+				"BrushMinStep": "Мінімальний крок кисті",
+				"BrushShape": "Форма кисті",
+				"BrushShapeCircle": "Коло",
+				"BrushShapeSquare": "Квадрат",
+				"BrushFalloffLinear": "Лінійний",
+				"BrushFalloffQuadratic": "Парабола"
+			}
+		},
+		"Eraser": 
+		{
+			"Title": "Ластик"
+		},
+		"FloodFill": 
+		{
+			"Title": "Заливка",
+			"Props": 
+			{
+				"Tolerance": "Толерантність"
+			}
+		},
+		"Pipette": 
+		{
+			"Title": "піпетка"
+		},
+		"Rect": 
+		{
+			"Title": "Прямокутник"
+		}
+	},
+
+	"ColorPicker": 
+	{
+		"Title": "Колір"
+	},
+
+	"ToolProperties": 
+	{
+		"Title": "Властивості інструменту - {0}"
+	},
+
+	"Layers": 
+	{
+		"Title": "Слої"
+	},
+
+	"Language": "Мова"
+}

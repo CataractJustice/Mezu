@@ -1,10 +1,10 @@
 :root 
 {
-	--bg-color: #202224;
-	--fg-color: #30363d;
-	--secondary-color: #1e5343;
-	--inset-color: #2a2c2e;
-	--font-color: #f0f2f4;
+	--bg-color: rgb(32, 34, 36);
+	--fg-color: rgb(48, 54, 61);
+	--secondary-color: rgb(101, 104, 138);
+	--inset-color: rgb(42, 44, 46);
+	--font-color: rgb(240, 242, 244);
 }
 
 .EditorBody 

@@ -5,3 +5,8 @@
 	position: relative;
 	overflow: hidden;
 }
+
+.Viewport * 
+{
+	user-select: none;
+}

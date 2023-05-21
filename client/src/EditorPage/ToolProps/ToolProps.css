@@ -6,6 +6,8 @@
 	align-content: flex-start;
 	min-height: 240px;
 	min-width: 320px;
+	max-height: 320px;
 	padding: 0px;
 	flex-wrap: wrap;
+	overflow-y: scroll;
 }

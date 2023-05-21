@@ -11,7 +11,7 @@
 	  position: absolute;
 }
 
-.CanvasLayer 
+.CanvasLayer, .BufferCanvas
 {
 	position: absolute;
 	width: 100%;

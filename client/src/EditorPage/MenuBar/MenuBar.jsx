@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import DialogPopup from "../../Components/DialogPopup";
+import SelectableText from "../../Components/SelectableText";
 import ImageFile from "../../ImageFile/ImageFile";
 import ImageLayerInternal from "../../ImageLayerInternal/ImageLayerInternal";
-import { EditorContext } from "../Editor";
+import { currentTheme, EditorContext, setTheme, Themes } from "../Editor";
 import NewImageDialog from "../NewImageDialog/NewImageDialog";
 import "./MenuBar.css";
 import MenuBarItem from "./MenuBarItem";
@@ -11,6 +12,7 @@ import MenuDropdown from "./MenuDropdown";
 function MenuBar() 
 {
 	const [newFileDialogOpen, setNewFileDialogOpen] = useState(false);
+	const [theme, setThemeState] = useState(currentTheme);
 	const editor = useContext(EditorContext);
 	return (
 		<>
@@ -38,14 +40,16 @@ function MenuBar()
 								{
 									validImage = false;
 								}
-								setTimeout(()=>{
+								image.onload = ()=>{
 									if(!validImage) return;
 									const editorImageFile = new ImageFile(image.width, image.height, fileName);
 									const imageLayer = new ImageLayerInternal(editorImageFile);
 									imageLayer.context.drawImage(image, 0, 0);
 									editorImageFile.layers.push(imageLayer);
 									editor.addOpenFile(editorImageFile);
-								}, 100);
+									editor.setCurrentFile(editorImageFile);
+									editorImageFile.currentLayer = imageLayer;
+								};
 							};
 							reader.readAsDataURL(e.target.files[0]);
 						};
@@ -53,24 +57,9 @@ function MenuBar()
 					}}
 					>Open</div>
 					<div className="MenuDropdownItem" onClick={()=>{
-						editor.currentFile.saved = true;
-						//Setting state of a current file does not update components that use current file state
-						editor.setCurrentFile(editor.currentFile);
-						//Setting state of a unused integer updates the components (all of them but that's at least something)
-						editor.REACTPLEASE();
-						const layers = editor.currentFile.layers;
-						const mergeCanvas = document.createElement("canvas");
-						mergeCanvas.width = editor.currentFile.width;
-						mergeCanvas.height = editor.currentFile.height;
-						const mergeContext = mergeCanvas.getContext("2d");
-						for(const layer of layers) 
-						{
-							mergeContext.drawImage(layer.canvas, 0, 0);
-						}
-
 						const link = document.createElement("a");
 						link.download = editor.currentFile.name;
-						link.href = mergeCanvas.toDataURL();
+						link.href = editor.currentFile.ComposedCanvas().toDataURL();
 						link.click();
 					}}>
 						Save
@@ -83,7 +72,23 @@ function MenuBar()
 					>Redo</div>
 				</MenuDropdown>
 			</MenuBarItem>
-			<MenuBarItem>View</MenuBarItem>
+			<MenuBarItem>
+			<MenuDropdown title="View">
+				<div className="MenuDropdownItem">
+				<MenuDropdown title="Theme">
+				{
+					Object.keys(Themes).map((key, index) => {
+						return <div key={key} className="MenuDropdownItem" onClick={()=>{setTheme(Themes[key])
+							setThemeState(Themes[key]);
+						}}>
+							<SelectableText selected={theme === Themes[key]}>{key}</SelectableText>
+						</div>
+					})
+				}
+				</MenuDropdown>
+				</div>
+			</MenuDropdown>
+			</MenuBarItem>
 			<MenuBarItem>Image</MenuBarItem>
 		</div>
 

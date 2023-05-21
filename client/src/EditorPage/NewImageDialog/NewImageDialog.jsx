@@ -73,7 +73,9 @@ function NewImageDialog(props)
 					defaultLayer.context.fillStyle = imageColor;
 					defaultLayer.context.fillRect(0, 0, imageWidth, imageHeight);
 					newImage.layers.push(defaultLayer);
+					newImage.currentLayer = defaultLayer;
 					editor.addOpenFile(newImage);
+					editor.setCurrentFile(newImage);
 
 				}}>Create</button>
 			</div>

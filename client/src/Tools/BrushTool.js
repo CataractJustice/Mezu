@@ -2,6 +2,8 @@ import { useState } from "react";
 import ContextModifyAction from "../ActionList/ContextModifyAction";
 import BrushGenerator from "./BrushGenerator";
 import BrushMaskDisplay from "./BrushMaskPreview";
+import BrushOutline from "./BrushOutline";
+import "./BrushTool.css";
 
 const brushMaxSteps = 128;
 
@@ -40,27 +42,38 @@ function PropsComponent(props)
 	const [minStep, setMinStep] = useState(1);
 	const [falloffFunction, setFalloffFunction] = useState({fn: BrushGenerator.Quadratic});
 	const [shapeFunction, setShapeFunction] = useState({fn: BrushGenerator.CircleSDF});
-	props.tool.brushMask = BrushGenerator.GenerateBySDF(size+falloff, size+falloff, size, falloff, shapeFunction.fn, falloffFunction.fn);
+	props.tool.setMask(BrushGenerator.GenerateBySDF(size+falloff, size+falloff, size, falloff, shapeFunction.fn, falloffFunction.fn));
 	props.tool.brushStep = minStep;
 	
 	return <div className="CurrentBrushProps">
 		<div className="CurrentBrushPreview">
 			<BrushMaskDisplay mask={props.tool.brushMask}></BrushMaskDisplay>
 		</div>
-		<input type="range" value={size} min={1} max={128} step={1} onChange={(e)=>{
+		<div className="BrushRange TitledFrame">
+			<div className="TitledFrameTitle">Brush size</div>
+			<input type="range" value={size} min={1} max={128} step={1} onChange={(e)=>{
 			setSize(parseInt(e.target.value));
-		}}></input>
-		<input type="range" value={falloff} min={0} max={128} step={1} onChange={(e)=>{
-			setFalloff(parseInt(e.target.value));
-		}}></input>
-		<input type="range" value={minStep} min={0} max={128} step={1} onChange={(e)=>{
-			setMinStep(parseInt(e.target.value));
-		}}></input>
-		<div className="BrushShapeSelectContainer">
-			<BrushShapeSelect currentShapeFunction={shapeFunction} setShapeFunction={setShapeFunction} shapeFunction={BrushGenerator.CircleSDF}>C</BrushShapeSelect>
-			<BrushShapeSelect currentShapeFunction={shapeFunction} setShapeFunction={setShapeFunction} shapeFunction={BrushGenerator.SquareSDF}>S</BrushShapeSelect>
+			}}></input><div>{`${size}px`}</div>
 		</div>
-		<div className="BrushFalloffSelectContainer">
+		<div className="BrushRange TitledFrame">
+			<div className="TitledFrameTitle">Brush falloff</div>
+			<input type="range" value={falloff} min={0} max={128} step={1} onChange={(e)=>{
+			setFalloff(parseInt(e.target.value));
+			}}></input><div>{`${falloff}px`}</div>
+		</div>
+		<div className="BrushRange TitledFrame">
+			<div className="TitledFrameTitle">Brush minimum step</div>
+			<input type="range" value={minStep} min={1} max={128} step={1} onChange={(e)=>{
+			setMinStep(parseInt(e.target.value));
+			}}></input><div>{`${minStep}px`}</div>
+		</div>
+		<div className="BrushShapeSelectContainer TitledFrame">
+			<div className="TitledFrameTitle">Brush shape</div>
+			<BrushShapeSelect currentShapeFunction={shapeFunction} setShapeFunction={setShapeFunction} shapeFunction={BrushGenerator.CircleSDF}>⃝</BrushShapeSelect>
+			<BrushShapeSelect currentShapeFunction={shapeFunction} setShapeFunction={setShapeFunction} shapeFunction={BrushGenerator.SquareSDF}>□</BrushShapeSelect>
+		</div>
+		<div className="BrushFalloffSelectContainer TitledFrame">
+			<div className="TitledFrameTitle">Brush falloff</div>
 			<BrushFalloffSelect currentFalloffFunction={falloffFunction} setFalloffFunction={setFalloffFunction} falloffFunction={BrushGenerator.Linear}>L</BrushFalloffSelect>
 			<BrushFalloffSelect currentFalloffFunction={falloffFunction} setFalloffFunction={setFalloffFunction} falloffFunction={BrushGenerator.Quadratic}>Q</BrushFalloffSelect>
 			<BrushFalloffSelect currentFalloffFunction={falloffFunction} setFalloffFunction={setFalloffFunction} falloffFunction={BrushGenerator.Root}>R</BrushFalloffSelect>
@@ -76,21 +89,38 @@ export default class BrushTool
 	editBoundingBox;
 	brushDrawnAlphaMask;
 	brushMask;
+	brushOutline;
+	brushOutlineDOM;
+	brushOutlineDOMImage;
 	brushStep;
 	colorFunction;
 	blendFunction;
 	active;
 	lastX;
 	lastY;
+	cbx;
+	cby;
+	smooth;
+	lastMPX;
+	lastMPY;
 	constructor(args) 
 	{
+		console.log("????????");
 		this.active = false;
 		this.brushStep = 1;
 		this.toolName = args.title;
 		this.colorFunction = args.colorFunction;
 		this.blendFunction = args.blendFunction;
-		this.brushMask = BrushGenerator.GenerateBySDF(32,32,16,16,BrushGenerator.SquareSDF, BrushGenerator.Quadratic);
 		this.PropsComponent = PropsComponent;
+		this.smooth = 0;
+		this.brushOutlineDOM = document.createElement("div");
+		this.brushOutlineDOMImage = document.createElement("canvas");
+		console.log(this.brushOutlineDOMImage);
+		this.brushOutlineDOMImage.style.width = "100%";
+		this.brushOutlineDOMImage.style.height = "100%";
+		this.brushOutlineDOM.append(this.brushOutlineDOMImage);
+		this.brushOutlineDOM.style.position = "absolute";
+		this.setMask(BrushGenerator.GenerateBySDF(32,32,16,16,BrushGenerator.SquareSDF, BrushGenerator.Quadratic));
 	}
 
 	onMouseDown(args) 
@@ -110,6 +140,8 @@ export default class BrushTool
 		}
 		this.imageDataBefore = args.layer.context.getImageData(0, 0, args.layer.canvas.width, args.layer.canvas.height);
 		this.active = true;
+		this.cbx = bx;
+		this.cby = by;
 		this.lastX = bx;
 		this.lastY = by;
 		this.brushDraw(args, bx, by);
@@ -117,8 +149,10 @@ export default class BrushTool
 
 	onMouseMove(args) 
 	{
-		if(!this.active) return;
-		const bx = parseInt(args.px) - parseInt(this.brushMask.width/2);
+		this.lastMPX = args.px;
+		this.lastMPY = args.py;
+		this.update(args);
+		if(!this.active) return;		const bx = parseInt(args.px) - parseInt(this.brushMask.width/2);
 		const by = parseInt(args.py) - parseInt(this.brushMask.height/2);
 		if(Math.sqrt((this.lastX - bx) * (this.lastX - bx) + (this.lastY - by) * (this.lastY - by)) < this.brushStep) return; 
 		this.editBoundingBox = {
@@ -127,10 +161,13 @@ export default class BrushTool
 			maxX: Math.max(bx + this.brushMask.width, this.editBoundingBox.maxX),
 			maxY: Math.max(by + this.brushMask.height, this.editBoundingBox.maxY)
 		}
+
+		this.cbx = bx * (1.0 - this.smooth) + this.cbx * (this.smooth);
+		this.cby = by * (1.0 - this.smooth) + this.cby * (this.smooth);
 		//
-		this.drawTo(args, bx, by);
-		this.lastX = bx;
-		this.lastY = by;
+		this.drawTo(args, this.cbx, this.cby);
+		this.lastX = this.cbx;
+		this.lastY = this.cby;
 	}
 
 	onMouseUp(args) 
@@ -161,8 +198,10 @@ export default class BrushTool
 		const steps = length / this.brushStep;
 		const adjustedMaxSteps = brushMaxSteps / (1.0 + (this.brushMask.width * this.brushMask.height) / 500.0)
 		const stepLength = (steps > adjustedMaxSteps) ? (length / adjustedMaxSteps) : (this.brushStep);
-		for(let i = stepLength; i <= length; i += stepLength) 
+		let drawnOnce = false;
+		for(let i = stepLength; i <= length || !drawnOnce; i += stepLength) 
 		{
+			drawnOnce = true;
 			const lerp = i / length;
 			const x = this.lastX * (1.0 - lerp) + bx * lerp;
 			const y = this.lastY * (1.0 - lerp) + by * lerp;
@@ -215,5 +254,28 @@ export default class BrushTool
 			}
 		}
 		args.layer.context.putImageData(stampImage, bx, by);
-	} 
+	}
+	
+	setMask(mask) 
+	{
+		this.brushMask = mask;
+		this.brushMaskOutline = BrushOutline(mask);
+		this.brushOutlineDOMImage.width = this.brushMaskOutline.width;
+		this.brushOutlineDOMImage.height = this.brushMaskOutline.height;
+		this.brushOutlineDOMImage.getContext("2d").putImageData(this.brushMaskOutline, 0, 0);
+	}
+
+	update(args) 
+	{
+		this.brushOutlineDOM.style.left = (args.xOffset + (this.lastMPX-parseInt(this.brushMask.width/2)) * args.zoom) + "px";
+		this.brushOutlineDOM.style.top = (args.yOffset + (this.lastMPY-parseInt(this.brushMask.height/2)) * args.zoom) + "px";
+		this.brushOutlineDOM.style.width = (this.brushMask.width * args.zoom) + "px";
+		this.brushOutlineDOM.style.height = (this.brushMask.height * args.zoom) + "px";
+		args.viewport.current.append(this.brushOutlineDOM);
+	}
+
+	setSelected(selected) 
+	{
+		if(!selected) this.brushOutlineDOM.parentNode.removeChild(this.brushOutlineDOM);
+	}
 }	

@@ -7,7 +7,7 @@ function FileTab(props)
 		onClick={props.onClick}
 		>
 			<div className="FileTabTitle">{`${props.file.name} ${props.file.saved ? "" : "*"}`}</div>
-			<div className="FileTabClose" onClick={props.onClose}>X</div>
+			<div className="FileTabClose" onClick={props.onClose}>⤬</div>
 		</div>
 	);
 }

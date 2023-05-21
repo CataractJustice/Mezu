@@ -20,7 +20,7 @@ export default class BrushGenerator
 
 	static Quadratic(distance) 
 	{
-		return 1.0 - distance*2.0;
+		return 1.0 - ((distance > 0.0) ? (distance*distance) : (0.0));
 	}
 
 	static Root(distance) 

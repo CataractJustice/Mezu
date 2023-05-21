@@ -31,7 +31,6 @@ export default function ColorPicker(props)
 	
 	<DialogPopup open={dialogOpen} onClose={()=>{setDialogOpen(false)}}>
 	<ChooseColorDialog color={editor.primaryColor} onClose={(color)=>{
-		console.log(color);
 		setDialogOpen(false);
 		editor.setPrimaryColor(color);
 	}}></ChooseColorDialog>

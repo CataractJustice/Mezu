@@ -1,7 +1,10 @@
 import "../../Components/TitledFrame.css";
 import AlphaBlend from "../../Tools/AlphaBlend";
 import BrushTool from "../../Tools/BrushTool";
+import { ColorPipette } from "../../Tools/ColorPipette";
+import ElipseTool from "../../Tools/ElipseTool";
 import { FloodFillTool } from "../../Tools/FloodFillTool";
+import RectTool from "../../Tools/RectTool";
 import "./ToolGrid.css";
 import ToolSelect from "./ToolSelect";
 
@@ -15,7 +18,7 @@ const BrushList = [
 			},
 			blendFunction: AlphaBlend.Normal
 		}),
-		icon: "B"
+		icon: "🖌"
 	},
 
 	{
@@ -30,6 +33,9 @@ const BrushList = [
 	}
 ];
 
+const rectTool = new RectTool();
+const elipseTool = new ElipseTool();
+
 function ToolGrid() 
 {
 	return (
@@ -41,7 +47,10 @@ function ToolGrid()
 				})
 			}
 
-			<ToolSelect tool={FloodFillTool}>F</ToolSelect>
+			<ToolSelect tool={FloodFillTool}>🪣</ToolSelect>
+			<ToolSelect tool={ColorPipette}>P</ToolSelect>
+			<ToolSelect tool={rectTool}>□</ToolSelect>
+			<ToolSelect tool={elipseTool}>□</ToolSelect>
 		</div>
 	);
 }

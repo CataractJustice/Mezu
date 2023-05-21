@@ -1,0 +1,77 @@
+{
+	"MenuBar": 
+	{
+		"View": "View",
+		"File": "File",
+		"Image": "Image",
+		"FileNew": "New",
+		"FileOpen": "Open",
+		"FileSave": "Save",
+		"FileUndo": "Undo",
+		"FileRedo": "Redo",
+		"ViewThemes": "Themes",
+		"ViewThemesLight": "Light",
+		"ViewThemeDark": "Dark"
+	},
+
+	"ToolGrid": 
+	{
+		"Title": "Tools"
+	},
+
+	"Tools": 
+	{
+		"Brush": 
+		{
+			"Title": "Brush",
+			"Props": 
+			{
+				"BrushSize": "Brush size",
+				"BrushFalloff": "Brush falloff",
+				"BrushMinStep": "Brush minimum step",
+				"BrushShape": "BrushShape",
+				"BrushShapeCircle": "Circle",
+				"BrushShapeSquare": "Square",
+				"BrushFalloffLinear": "Linear",
+				"BrushFalloffQuadratic": "Quadratic" 
+			}
+		},
+		"Eraser": 
+		{
+			"Title": "Eraser"
+		},
+		"FloodFill": 
+		{
+			"Title": "Flood fill",
+			"Props": 
+			{
+				"Tolerance": "Tolerance"
+			}
+		},
+		"Pipette": 
+		{
+			"Title": "Pipette"
+		},
+		"Rect": 
+		{
+			"Title": "Rect"
+		}
+	},
+
+	"ColorPicker": 
+	{
+		"Title": "Color"
+	},
+
+	"ToolProperties": 
+	{
+		"Title": "{0} properties"
+	},
+
+	"Layers": 
+	{
+		"Title": "Layers"
+	},
+
+	"Language": "Language"
+}
