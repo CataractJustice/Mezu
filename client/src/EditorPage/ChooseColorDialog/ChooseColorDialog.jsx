@@ -28,7 +28,7 @@ function ChooseColorDialog(props)
 					const R = parseInt(hex[1], 16);
 					const G = parseInt(hex[2], 16);
 					const B = parseInt(hex[3], 16);
-					colorVal = [R,G,B, colorVal[3]];
+					colorVal = [R,G,B, selectedColor[3]];
 					setSelectedColor(colorVal);
 					if(previewRef.current) previewRef.current.style.backgroundColor = `rgba(${colorVal[0]}, ${colorVal[1]}, ${colorVal[2]}, ${colorVal[3]/255})`;
 				};
@@ -39,7 +39,7 @@ function ChooseColorDialog(props)
 			</div>
 			<div className="ColorProperiesContainer">
 				<input type="range" min={0} max={255} step={1} value={alpha} onChange={(e)=>{
-					colorVal = ([colorVal[0], colorVal[1], colorVal[2], parseInt(e.target.value)]);
+					colorVal = ([selectedColor[0], selectedColor[1], selectedColor[2], parseInt(e.target.value)]);
 					if(previewRef.current) previewRef.current.style.backgroundColor = `rgba(${colorVal[0]}, ${colorVal[1]}, ${colorVal[2]}, ${colorVal[3]/255})`;
 					setSelectedColor(colorVal);
 					setAlpha(colorVal[3]);
