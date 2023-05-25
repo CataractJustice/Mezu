@@ -25,7 +25,7 @@ export default function ColorPicker(props)
 			</div>
 		</div>
 		<div className="ColorPickerSwapColorsButton" onClick={editor.swapToolColors}>
-			S
+		⇆
 		</div>
 	</div>
 	
