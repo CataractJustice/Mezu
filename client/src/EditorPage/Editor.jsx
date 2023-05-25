@@ -143,8 +143,17 @@ function Editor()
 		openFilesTemp[openFilesTemp.indexOf(currentFile)].currentLayer = layer;
 		setOpenFiles(openFilesTemp);
 	}
+	const deleteLayer = (layer) => 
+	{
+		const openFilesTemp = openFiles.slice();
+		openFilesTemp[openFilesTemp.indexOf(currentFile)].layers.splice(
+			openFilesTemp[openFilesTemp.indexOf(currentFile)].layers.indexOf(layer)
+		, 1);
+		setOpenFiles(openFilesTemp);
+		setCurrentFile(currentFile);
+	}
 	return (
-		<EditorContext.Provider value={{REACTPLEASE, swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, setCurrentToolState, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
+		<EditorContext.Provider value={{deleteLayer, REACTPLEASE, swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, setCurrentToolState, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
 			<div className="EditorBody">
 				<MenuBar></MenuBar>
 				<div className="EditorMid">

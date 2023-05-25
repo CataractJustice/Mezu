@@ -112,7 +112,7 @@ export default function FreeTransformUI(props)
 	}
 	
 	return (
-		<>
+		<div style={{display: props.active ? "" : "none"}}>
 		<div className="FreeTransformUI"
 		style={
 			{
@@ -197,6 +197,6 @@ export default function FreeTransformUI(props)
 		} onMouseDown={(e)=>{controlCase = 8; cpCallback(e)}} >
 
 		</div>
-		</>
+		</div>
 	);
 }

@@ -1,0 +1,13 @@
+.ApplyShapeButton 
+{
+	padding: 6px;
+	margin: 12px;
+	cursor: pointer;
+	text-align: center;
+	border: 1px solid var(--inset-color);
+}
+
+.ApplyShapeButton:active 
+{
+	background-color: var(--inset-color);
+}

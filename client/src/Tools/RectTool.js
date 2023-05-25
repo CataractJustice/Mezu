@@ -2,12 +2,12 @@ import { useState } from "react";
 import ContextModifyAction from "../ActionList/ContextModifyAction";
 import SelectableText from "../Components/SelectableText";
 import MenuDropdown from "../EditorPage/MenuBar/MenuDropdown";
-import RectTransformTool from "./RectTransformTool";
-
+import './ShapeTool.css'
 function PropsComponent(props) 
 {
-	const [fill, setFill] = useState(false);
-	const [lineWidth, setLineWidth] = useState(1);
+	const [fill, setFill] = useState(props.tool.fill);
+	const [lineWidth, setLineWidth] = useState(props.tool.lineWidth);
+	const [lineJoin, setLineJoin] = useState(props.tool.lineJoin);
 	const lineJoins = ["bevel", "round", "miter"];
 	/*
 	const [rectX, setRectX] = useState(props.tool.currentRect.x);
@@ -27,6 +27,7 @@ function PropsComponent(props)
 			<input type="range" value={lineWidth} min={1} max={128} step={1} onChange={(e)=>{
 			setLineWidth(parseInt(e.target.value));
 			props.tool.lineWidth = parseInt(e.target.value);
+			props.tool.setCurrentRect(props.tool.currentRect);
 			}}></input><div>{`${lineWidth}px`}</div>
 	</div>
 	<div className="RectField TitledFrame">
@@ -34,18 +35,21 @@ function PropsComponent(props)
 			<input type={"checkbox"} value={fill} onChange={(e)=>{
 			setFill(e.target.value);
 			props.tool.fill = e.target.value;
+			props.tool.setCurrentRect(props.tool.currentRect);
 			}}></input>
 	</div>
 
 	<div className="RectField TitledFrame">
 			<div className="TitledFrameTitle">Line join</div>
-			<MenuDropdown title="Blend mode">
+			<MenuDropdown title={lineJoin}>
 					{
 						lineJoins.map((lineJoin, index) => {
 							
 							return (
 								<div className="MenuDropdownItem" onClick={()=>{
 									props.tool.lineJoin = lineJoin;
+									props.tool.setCurrentRect(props.tool.currentRect);
+									setLineJoin(lineJoin);
 								}} key={lineJoin}><SelectableText selected={props.tool.lineJoin===lineJoin}>{lineJoin}</SelectableText></div>
 							);
 						})
@@ -81,6 +85,16 @@ function PropsComponent(props)
 	}}></input>
 	</> : <></>
 */}
+
+	{
+	<div className="ApplyShapeButton" onClick={
+		()=>
+		{
+			if(props.tool.rectActive)
+			props.tool.applyBuffer();
+		}
+	}>Apply shape</div>
+	}
 	</>);
 }
 
@@ -112,6 +126,9 @@ export default class RectTool
 
 	onMouseDown(args) 
 	{
+		args.setTransformRectActive(true);
+		if(this.rectActive) return;
+		this.setTransformRectActive = (b)=>{args.setTransformRectActive(b)};
 		this.applyBuffer();
 		this.active = true;
 		this.rectActive = true;
@@ -124,6 +141,7 @@ export default class RectTool
 	onMouseMove(args) 
 	{
 		if(!this.active) return;
+		args.setTransformRectActive(true);
 
 		this.currentRect.w = parseInt(args.px) - this.currentRect.x;
 		this.currentRect.h = parseInt(args.py) - this.currentRect.y;
@@ -177,12 +195,13 @@ export default class RectTool
 	onMouseUp() 
 	{
 		this.active = false;
-		this.currentEditor.setCurrentToolState(new RectTransformTool({onTransform: (rect)=>{this.setCurrentRect(rect);}}));
 	}
 
 	applyBuffer() 
 	{
 		this.rectActive = false;
+		if(this.setTransformRectActive)
+		this.setTransformRectActive(false);
 		if(this.currentRect.w === 0 || this.currentRect.h === 0) return;
 		const padding = 2 + this.lineWidth;
 		const normalRect = {
@@ -201,5 +220,10 @@ export default class RectTool
 	setSelected(selected) 
 	{
 		if(!selected) this.applyBuffer();
+	}
+
+	onRectTransform(rect) 
+	{
+		this.setCurrentRect(rect);
 	}
 }

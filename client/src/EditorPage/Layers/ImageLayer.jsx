@@ -39,10 +39,10 @@ function ImageLayer(props)
 		>
 			<div className="ImageLayerMoveContainer">
 				<div className="ImageLayerMoveButton">
-				U
+				⇑
 				</div>
 				<div className="ImageLayerMoveButton">
-				D
+				⇓
 				</div>
 			</div>
 			<div className="ImageLayerPreviewContainer">
@@ -77,8 +77,10 @@ function ImageLayer(props)
 					setHidden(!props.layer.hidden);
 					props.layer.setHidden(!props.layer.hidden);
 				}}>{hidden ? "H" : "h"}</div>
-				<div className="ImageLayerOptionButton">D</div>
-				<div className="ImageLayerOptionButton">M</div>
+				<div className="ImageLayerOptionButton" onClick={()=>{
+					editor.deleteLayer(props.layer);
+				}}>D</div>
+				{/*<div className="ImageLayerOptionButton">M</div>*/}
 			</div>
 		</div>
 	);

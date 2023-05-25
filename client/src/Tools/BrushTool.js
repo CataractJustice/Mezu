@@ -276,6 +276,6 @@ export default class BrushTool
 
 	setSelected(selected) 
 	{
-		if(!selected) this.brushOutlineDOM.parentNode.removeChild(this.brushOutlineDOM);
+		if(!selected) if(this.brushOutlineDOM.parentNode) this.brushOutlineDOM.parentNode.removeChild(this.brushOutlineDOM);
 	}
 }	

@@ -21,6 +21,7 @@ function Viewport(props)
 	const editor = useContext(EditorContext);
 
 	const [transformRect, setTransformRect] = useState({x:0,y:0,w:0,h:0});
+	const [transformRectActive, setTransformRectActive] = useState(false);
 
 	//Temporary test fields
 	const canvasWidth = props.file.width;
@@ -52,7 +53,7 @@ function Viewport(props)
 				}
 				if(e.button === 0 && editor.currentTool.onMouseDown && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseDown({setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
+					editor.currentTool.onMouseDown({setTransformRectActive, setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 		onMouseMove={(e)=>
@@ -75,7 +76,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseMove && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseMove({setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
+					editor.currentTool.onMouseMove({setTransformRectActive, setTransformRect:setTransformRect,xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 		onMouseUp={(e)=>
@@ -96,7 +97,7 @@ function Viewport(props)
 
 				if(e.button === 0 && editor.currentTool.onMouseUp && editor.currentFile.currentLayer.context) 
 				{
-					editor.currentTool.onMouseUp({setTransformRect:setTransformRect, xOffset:xOffset, yOffset:yOffset, zoom:zoom, editor: editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
+					editor.currentTool.onMouseUp({setTransformRectActive, setTransformRect, xOffset, yOffset, zoom, editor, px: localMouseX, py: localMouseY, layer: editor.currentFile.currentLayer, viewport: ViewportRef});
 				}
 			}}
 
@@ -129,11 +130,12 @@ function Viewport(props)
 			}}
 		>
 			<ImageCanvas xOffset={xOffset} yOffset={yOffset} zoom={zoom} file={props.file}></ImageCanvas>
-			<FreeTransformUI onTransform={(x,y,w,h)=>{
+			<FreeTransformUI active={transformRectActive} onTransform={(x,y,w,h)=>{
 				setTransformRect({x:x,y:y,w:w,h:h});
 				if(editor.currentTool.onRectTransform) editor.currentTool.onRectTransform({x:x,y:y,w:w,h:h});
 				}} x={transformRect.x} y={transformRect.y} w={transformRect.w} h={transformRect.h} xOffset={xOffset} yOffset={yOffset} zoom={zoom}></FreeTransformUI>
-		</div>
+			
+	</div>
 	);
 }
  
