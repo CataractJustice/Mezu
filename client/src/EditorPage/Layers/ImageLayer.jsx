@@ -25,6 +25,7 @@ function ImageLayer(props)
 		if(canvasRef.current) 
 		{
 			const ctx = canvasRef.current.getContext("2d");
+			ctx.clearRect(0,0, aspectW * previewWidthPx, aspectH * previewWidthPx);
 			ctx.drawImage(props.layer.canvas, 0, 0, aspectW * previewWidthPx, aspectH * previewWidthPx);
 		}
 	});
@@ -38,10 +39,10 @@ function ImageLayer(props)
 		}}
 		>
 			<div className="ImageLayerMoveContainer">
-				<div className="ImageLayerMoveButton">
+				<div className="ImageLayerMoveButton" onClick={()=>{editor.moveLayerUp(props.layer);}}>
 				⇑
 				</div>
-				<div className="ImageLayerMoveButton">
+				<div className="ImageLayerMoveButton" onClick={()=>{editor.moveLayerDown(props.layer);}}>
 				⇓
 				</div>
 			</div>

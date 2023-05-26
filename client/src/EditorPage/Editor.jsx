@@ -152,8 +152,28 @@ function Editor()
 		setOpenFiles(openFilesTemp);
 		setCurrentFile(currentFile);
 	}
+	const moveLayerUp = (layer) => 
+	{
+		const openFilesTemp = openFiles.slice();
+		let index = currentFile.layers.indexOf(layer);
+		if(!index) return;
+		currentFile.layers.splice(index, 1);
+		currentFile.layers.splice(index - 1, 0, layer);
+		setOpenFiles(openFilesTemp);
+		setCurrentFile(currentFile);
+	} 
+	const moveLayerDown = (layer) => 
+	{
+		const openFilesTemp = openFiles.slice();
+		let index = currentFile.layers.indexOf(layer);
+		if(index >= currentFile.layers.length - 1) return;
+		currentFile.layers.splice(index, 1);
+		currentFile.layers.splice(index + 1, 0, layer);
+		setOpenFiles(openFilesTemp);
+		setCurrentFile(currentFile);
+	} 
 	return (
-		<EditorContext.Provider value={{deleteLayer, REACTPLEASE, swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, setCurrentToolState, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
+		<EditorContext.Provider value={{moveLayerUp, moveLayerDown, deleteLayer, REACTPLEASE, swapToolColors, primaryColor, setPrimaryColor, secondaryColor, setSecondaryColor, actionList, openFiles, setOpenFiles, currentTool, setCurrentTool, setCurrentToolState, addOpenFile, closeFile, currentFile, setCurrentFile, addLayerToCurrentImage, setCurrentImageCurrentLayer}}>
 			<div className="EditorBody">
 				<MenuBar></MenuBar>
 				<div className="EditorMid">
